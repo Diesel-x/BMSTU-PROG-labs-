@@ -15,80 +15,97 @@ import math as m
 eps = 1e-7  # Эпсилон
 
 # Ввод координат точек
-xA = float(input("Введите xA: "))
-yA = float(input("Введите yA: "))
+xA = int(input("Введите xA: "))
+yA = int(input("Введите yA: "))
 
-xB = float(input("Введите xB: "))
-yB = float(input("Введите yB: "))
+xB = int(input("Введите xB: "))
+yB = int(input("Введите yB: "))
 
-xC = float(input("Введите xC: "))
-yC = float(input("Введите yC: "))
+xC = int(input("Введите xC: "))
+yC = int(input("Введите yC: "))
 
-# Вычисление длин сторон треугольника
-lengthAB = m.sqrt((xB - xA) ** 2 + (yB - yA) ** 2)
-lengthBC = m.sqrt((xC - xB) ** 2 + (yC - yB) ** 2)
-lengthAC = m.sqrt((xC - xA) ** 2 + (yC - yA) ** 2)
+# Проверка на то, что это треугольник
+isNotTringle = True if ((xA == xB and yA == yB) or
+                        (xA == xC and yA == yC) or
+                        (xB == xC and yB == yC)) else False
 
-print(f"Длина стороны AB: {lengthAB:.7f}")
-print(f"Длина стороны BC: {lengthBC:.7f}")
-print(f"Длина стороны AC: {lengthAC:.7f}")
-print()
+# Проверка на коллинеарность
+if not isNotTringle:
+    if abs((yB - yA) * (xC - xB) - (yC - yB) * (xB - xA)) < eps:
+        isNotTringle = True
 
-# Вычисление углов треугольника
-angleA = m.acos((lengthBC**2 + lengthAC**2 - lengthAB**2) /
-                (2 * lengthBC * lengthAC))
-angleB = m.acos((lengthAB**2 + lengthAC**2 - lengthBC**2) /
-                (2 * lengthAB * lengthAC))
-angleC = m.acos((lengthAB**2 + lengthBC**2 - lengthAC**2) /
-                (2 * lengthAB * lengthBC))
+if isNotTringle == False:
+    # Вычисление длин сторон треугольника
+    lengthAB = m.sqrt((xB - xA) ** 2 + (yB - yA) ** 2)
+    lengthBC = m.sqrt((xC - xB) ** 2 + (yC - yB) ** 2)
+    lengthAC = m.sqrt((xC - xA) ** 2 + (yC - yA) ** 2)
 
-print(f"Угол A: {m.degrees(angleA):.7f}")
+    print(f"Длина стороны AB: {lengthAB:.7f}")
+    print(f"Длина стороны BC: {lengthBC:.7f}")
+    print(f"Длина стороны AC: {lengthAC:.7f}")
+    print()
 
+    # Вычисление углов треугольника
+    angleA = m.acos((lengthBC**2 + lengthAC**2 - lengthAB**2) /
+                    (2 * lengthBC * lengthAC))
+    angleB = m.acos((lengthAB**2 + lengthAC**2 - lengthBC**2) /
+                    (2 * lengthAB * lengthAC))
+    angleC = m.acos((lengthAB**2 + lengthBC**2 - lengthAC**2) /
+                    (2 * lengthAB * lengthBC))
 
-# Вычисление биссектрисы, исходящего из минимального угла
-if angleA < angleB and angleA < angleC:  # Если угол A минимальный
-    bisector = (2 * lengthBC * lengthAC * m.cos(angleA / 2)) / \
-        (lengthBC + lengthAC)
-elif angleB < angleA and angleB < angleC:  # Если угол B минимальный
-    bisector = (2 * lengthAB * lengthAC * m.cos(angleB / 2)) / \
-        (lengthAB + lengthAC)
-else:  # Если угол C минимальный
-    bisector = (2 * lengthAB * lengthBC * m.cos(angleC / 2)) / \
-        (lengthAB + lengthBC)
+    print(f"Угол A: {m.degrees(angleA):.7f}")
 
-print(f"Длина биссектрисы: {bisector:.7f}")
+    # Вычисление биссектрисы, исходящего из минимального угла
+    if angleA < angleB and angleA < angleC:  # Если угол A минимальный
+        bisector = (2 * lengthBC * lengthAC * m.cos(angleA / 2)) / \
+            (lengthBC + lengthAC)
+    elif angleB < angleA and angleB < angleC:  # Если угол B минимальный
+        bisector = (2 * lengthAB * lengthAC * m.cos(angleB / 2)) / \
+            (lengthAB + lengthAC)
+    else:  # Если угол C минимальный
+        bisector = (2 * lengthAB * lengthBC * m.cos(angleC / 2)) / \
+            (lengthAB + lengthBC)
 
-# Проверка на остроугольность
-if angleA < m.pi / 2 and angleB < m.pi / 2 and angleC < m.pi / 2:
-    print("Треугольник остроугольный")
+    print(f"Длина биссектрисы: {bisector:.7f}")
 
-# Ввод координат точки
-xZ = float(input("Введите x произвольной точки: "))
-yZ = float(input("Введите y произвольной точки: "))
+    # Проверка на остроугольность
+    if angleA < m.pi / 2 and angleB < m.pi / 2 and angleC < m.pi / 2:
+        print("Треугольник остроугольный")
+    else:
+        print("Треугольник не остроугольный")
 
-# Находиться ли точка внутри треугольника
-# Вычисление площади исходного треугольника
-s_ABC = abs((xA*(yB - yC) + xB*(yC - yA) + xC*(yA - yB)) / 2.0)
+    # Ввод координат точки
+    xZ = float(input("Введите x произвольной точки: "))
+    yZ = float(input("Введите y произвольной точки: "))
 
-# Вычисление площадей треугольников, образованных точкой Z и сторонами исходного треугольника
-s_ABZ = abs((xA*(yB - yZ) + xB*(yZ - yA) + xZ*(yA - yB)) / 2.0)
-s_BCZ = abs((xB*(yC - yZ) + xC*(yZ - yB) + xZ*(yB - yC)) / 2.0)
-s_ACZ = abs((xA*(yC - yZ) + xC*(yZ - yA) + xZ*(yA - yC)) / 2.0)
+    # Находиться ли точка внутри треугольника
+    # Вычисление площади исходного треугольника
+    s_ABC = abs((xA*(yB - yC) + xB*(yC - yA) + xC*(yA - yB)) / 2.0)
 
-# Проверка, находится ли точка внутри треугольника
-if abs(s_ABC - (s_ABZ + s_BCZ + s_ACZ)) < eps:
-    # Вычисление расстояний от точки до сторон треугольника
-    distance_to_AB = abs((yB - yA) * xZ - (xB - xA) * yZ +
-                         xB * yA - yB * xA) / m.sqrt((yB - yA)**2 + (xB - xA)**2)
-    distance_to_BC = abs((yC - yB) * xZ - (xC - xB) * yZ +
-                         xC * yB - yC * xB) / m.sqrt((yC - yB)**2 + (xC - xB)**2)
-    distance_to_AC = abs((yC - yA) * xZ - (xC - xA) * yZ +
-                         xC * yA - yC * xA) / m.sqrt((yC - yA)**2 + (xC - xA)**2)
+    # Вычисление площадей треугольников, образованных точкой Z и сторонами исходного треугольника
+    s_ABZ = abs((xA*(yB - yZ) + xB*(yZ - yA) + xZ*(yA - yB)) / 2.0)
+    s_BCZ = abs((xB*(yC - yZ) + xC*(yZ - yB) + xZ*(yB - yC)) / 2.0)
+    s_ACZ = abs((xA*(yC - yZ) + xC*(yZ - yA) + xZ*(yA - yC)) / 2.0)
 
-    # Нахождение минимального расстояния
-    min_distance = min(distance_to_AB, distance_to_BC, distance_to_AC)
+    # Проверка, находится ли точка внутри треугольника
+    if abs(s_ABC - (s_ABZ + s_BCZ + s_ACZ)) < eps:
+        # Вычисление расстояний от точки до сторон треугольника
+        distance_to_AB = abs((yB - yA) * xZ - (xB - xA) * yZ +
+                             xB * yA - yB * xA) / m.sqrt((yB - yA)**2 + (xB - xA)**2)
+        distance_to_BC = abs((yC - yB) * xZ - (xC - xB) * yZ +
+                             xC * yB - yC * xB) / m.sqrt((yC - yB)**2 + (xC - xB)**2)
+        distance_to_AC = abs((yC - yA) * xZ - (xC - xA) * yZ +
+                             xC * yA - yC * xA) / m.sqrt((yC - yA)**2 + (xC - xA)**2)
 
-    print(
-        f"Расстояние от точки до ближайшей стороны треугольника: {min_distance:.7f}")
+        # Нахождение минимального расстояния
+        min_distance = min(distance_to_AB, distance_to_BC, distance_to_AC)
+
+        print(
+            f"Расстояние от точки до ближайшей стороны треугольника: {min_distance:.7f}")
+    else:
+        print("Точка находится вне треугольника")
 else:
-    print("Точка находится вне треугольника")
+    print("Это не треугольник")
+
+
+# Медиана большего угла
