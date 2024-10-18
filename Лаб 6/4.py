@@ -38,7 +38,6 @@ for i in arr:
             primals.append(i)
         elif len(primals_f) < len(primals):  # Если текущая посл-ть больше прошлого
             primals_f = primals
-            print("aboba")
             primals = []
     else:
         if len(primals_f) < len(primals):
