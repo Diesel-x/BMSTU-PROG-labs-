@@ -12,9 +12,9 @@ while True:
 
 for i in range(length):
     while True:
-        eee = input(f"{i+1} элемент массива > ")
-        if eee.isdigit():
-            arr.append(int(eee))
+        element = input(f"{i+1} элемент массива > ")
+        if element.isdigit():
+            arr.append(int(element))
             break
         else:
             print("Ошибка ввода элемента массива. Ожидается целое число.")
@@ -29,13 +29,16 @@ while True:
     else:
         print("Ошибка ввода элемента. Ожидается целое число.")
 
-while True:
-    indx = input("Индекс вводимого элемента > ")
-    if indx.isdigit() and 0 <= int(indx) <= len(arr):
-        indx = int(indx)
-        break
-    else:
-        print("Индекс вне допустимого диапазона или ошибка ввода индекса. Ожидается целое число.")
+# while True:
+#     indx = input("Индекс вводимого элемента > ")
+#     if indx.isdigit() and 0 <= int(indx) <= len(arr):
+#         indx = int(indx)
+#         break
+#     else:
+#         print("Индекс вне допустимого диапазона или ошибка ввода индекса. Ожидается целое число.")
+
+indx = int(input("Индекс вводимого элемента > "))
+
 
 arr.insert(indx, num)
 print(arr)

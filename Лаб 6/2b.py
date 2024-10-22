@@ -24,7 +24,7 @@ print(arr)
 indx = None
 while True:
     indx = input("Индекс удаляемого элемента > ")
-    if indx.isdigit() and 0 <= int(indx) <= len(arr):
+    if indx.isdigit() and 0 <= int(indx) < len(arr):
         indx = int(indx)
         break
     else:

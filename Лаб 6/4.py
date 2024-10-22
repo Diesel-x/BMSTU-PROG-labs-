@@ -21,8 +21,8 @@ for i in range(length):
 
 print(arr)
 
-# test_array = [10, 2, 3, 5, 4, 7, 11, 13, 6, 17, 19, 23, 8, 29, 31]
-# arr = test_array
+test_array = [10, 2, 3, 5, 4, 7, 11, 13, 6, 17, 19, 23, 8, 29, 31]
+arr = test_array
 
 primals = []
 primals_f = []
@@ -32,7 +32,7 @@ for i in arr:
     while d * d <= i and i % d != 0:
         d += 1
     if d * d > i:
-        if len(primals) == 0:  # Если начало последовательности
+        if len(primals) == 0:  # Если начало последовательности5
             primals.append(i)
         elif primals[len(primals) - 2] < i:  # Если больше последнего элемента посл-ти
             primals.append(i)
