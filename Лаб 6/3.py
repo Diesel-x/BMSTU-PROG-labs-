@@ -23,16 +23,20 @@ print(arr)
 
 ecs = []
 for i in range(1, len(arr) - 2):
-    if (arr[i - 1] < arr[i] > arr[i - 1] or arr[i - 1] > arr[i] < arr[i - 1]):
+    if (arr[i - 1] < arr[i] > arr[i + 1] or arr[i - 1] > arr[i] < arr[i + 1]):
         ecs.append(arr[i])
 
 indx = None
-while True:
-    indx = input(f"Введите номер экстремума из {len(ecs)}> ")
-    if indx.isdigit() and 0 <= int(indx) <= len(ecs):
-        indx = int(indx)
-        break
-    else:
-        print("Номер вне допустимого диапазона или ошибка ввода. Ожидается целое число.")
+if len(ecs):
+    while True:
+        indx = input(f"Введите номер экстремума из {len(ecs)}> ")
+        if indx.isdigit() and 0 <= int(indx) <= len(ecs):
+            indx = int(indx)
+            break
+        else:
+            print(
+                "Номер вне допустимого диапазона или ошибка ввода. Ожидается целое число.")
 
-print(ecs[indx - 1])
+    print(ecs[indx - 1])
+else:
+    print("Нет экстремумов")

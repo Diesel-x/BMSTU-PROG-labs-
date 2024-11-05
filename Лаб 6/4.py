@@ -21,7 +21,7 @@ for i in range(length):
 
 print(arr)
 
-test_array = [10, 2, 3, 5, 4, 7, 11, 13, 6, 17, 19, 23, 8, 29, 31]
+test_array = [10, 2, 3, 5, 4, 7, 11, 13, 17, 19, 23, 8, 29, 31]
 arr = test_array
 
 primals = []

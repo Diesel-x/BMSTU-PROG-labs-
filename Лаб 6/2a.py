@@ -30,5 +30,5 @@ while True:
     else:
         print("Индекс вне допустимого диапазона или ошибка ввода индекса. Ожидается целое число.")
 
-arr.pop(indx-1)
+arr.pop(indx)
 print(arr)
