@@ -38,6 +38,7 @@ for index_n, n in enumerate(matrix):
     for m in n:
         if m % 2 == 0:
             even_count += 1
+
     if even_count > max_even_count:
         max_even_count = even_count
         index_max_even = index_n

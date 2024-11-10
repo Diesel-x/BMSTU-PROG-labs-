@@ -8,11 +8,17 @@ use_test_data = input(
 
 if use_test_data == "да":
     size = 4
+    # matrix = [
+    #     [4, -2, 3.5, 13],
+    #     [-1, 5, -6, 2],
+    #     [3, 7, -8, 4],
+    #     [-5, 6, 2.5, -3]
+    # ]
     matrix = [
-        [4, -2, 3.5, 1],
-        [-1, 5, -6, 2],
-        [3, 7, -8, 4],
-        [-5, 6, 2.5, -3]
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [-5, 0, 0, 5]
     ]
 else:
     size = int(input("Введите размер квадратной матрицы: "))
@@ -49,7 +55,7 @@ for i in range(size):
         if j > i:  # Над главной диагональю
             if matrix[i][j] > max_above_main_diag:
                 max_above_main_diag = matrix[i][j]
-        if j < size - 1 - i:  # Под побочной диагональю
+        if j > size - 1 - i:  # Под побочной диагональю
             if matrix[i][j] < min_below_secondary_diag:
                 min_below_secondary_diag = matrix[i][j]
 
