@@ -6,7 +6,7 @@
 
 # Ввод матрицы
 use_test_data = input(
-    "Использовать тестовы�� данные? (да/нет): ").strip().lower()
+    "Использовать тестовые данные? (да/нет): ").strip().lower()
 
 if use_test_data == "да":
     size = 4
@@ -47,6 +47,9 @@ for layer in range(size // 2):
     first = layer
     last = size - 1 - layer
     for i in range(first, last):
+        print()
+        for row in matrix:
+            print(" ".join(f"{element:>6}" for element in row))
         offset = i - first
         top = matrix[first][i]
         matrix[first][i] = matrix[last - offset][first]

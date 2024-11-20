@@ -7,64 +7,52 @@
 def input_matrix(name):
     matrix = []
     while True:
-        try:
-            rows = int(input(f"Введите количество строк для матрицы {name}: "))
-            cols = int(
-                input(f"Введите количество столбцов для матрицы {name}: "))
-            for i in range(rows):
-                row = list(
-                    map(int, input(f"Введите элементы строки {i + 1} для матрицы {name}: ").split()))
-                if len(row) != cols:
-                    raise ValueError(
-                        "Количество элементов в строке должно совпадать с количеством столбцов.")
-                matrix.append(row)
-            break
-        except ValueError as e:
-            print(f"Ошибка: {e}\n")
+        rows = int(input(f"Введите количество строк для матрицы {name}: "))
+        cols = int(
+            input(f"Введите количество столбцов для матрицы {name}: "))
+        for i in range(rows):
+            row = list(
+                map(int, input(f"Введите элементы строки {i + 1} для матрицы {name}: ").split()))
+            if len(row) != cols:
+                raise ValueError(
+                    "Количество элементов в строке должно совпадать с количеством столбцов.")
+            matrix.append(row)
+        break
     return matrix
 
 
-def input_array(name):
-    while True:
-        try:
-            array = list(
-                map(int, input(f"Введите элементы массива {name}: ").split()))
-            return array
-        except ValueError as e:
-            print(f"Ошибка: {e}\n")
+def find_max_elements(D, I):
+    R = []
+    
+    for i in I:
+        max_value = max(D[i])
+        R.append(max_value)
+        
+    return R
 
+def average_of_max_values(R):
+    if len(R) == 0:
+        return None
+    else:
+        return sum(R) / len(R)
 
-def print_matrix(matrix):
-    for row in matrix:
-        print(" ".join(map(str, row)))
+# Тестовые данные
+D = [
+    [10, 20, 30],
+    [40, 50, 60],
+    [70, 80, 90]
+]
 
+I = [0, 2]
 
-def max_elements(matrix, indices):
-    return [max(matrix[i]) for i in indices]
+R = find_max_elements(D, I)
 
+average = average_of_max_values(R)
 
-def average(values):
-    return sum(values) / len(values)
+print("Матрица D:")
+for row in D:
+    print(row)
 
-
-# Ввод матрицы D и массива I
-D = input_matrix("D")
-I = input_array("I")
-
-# Определение максимальных элементов для строк, указанных в массиве I
-R = max_elements(D, I)
-
-# Определение среднего арифметического вычисленных максимальных значений
-avg = average(R)
-
-# Вывод матрицы D, массивов I и R, среднего арифметического значения
-print("\nМатрица D:")
-print_matrix(D)
-
-print("\nМассив I:")
-print(" ".join(map(str, I)))
-
-print("\nМассив R:")
-print(" ".join(map(str, R)))
-
-print(f"\nСреднее арифметическое значение: {avg:.2f}")
+print("\nМассив I:", I)
+print("\nМассив R:", R)
+print(f"\nСреднее арифметическое: {average}")

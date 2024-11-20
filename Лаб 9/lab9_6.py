@@ -5,15 +5,12 @@
 def input_matrix(name):
     matrix = []
     while True:
-        try:
-            rows = int(input(f"Введите количество строк для матрицы {name}: "))
-            for i in range(rows):
-                row = list(
-                    input(f"Введите элементы строки {i + 1} для матрицы {name}: "))
-                matrix.append(row)
-            break
-        except ValueError as e:
-            print(f"Ошибка: {e}\n")
+        rows = int(input(f"Введите количество строк для матрицы {name}: "))
+        for i in range(rows):
+            row = list(
+                input(f"Введите элементы строки {i + 1} для матрицы {name}: "))
+            matrix.append(row)
+        break
     return matrix
 
 
@@ -34,16 +31,18 @@ def transform_matrix(matrix):
     return matrix
 
 
-# Ввод матрицы символов
-matrix = input_matrix("символов")
+# matrix = input_matrix("символов")
 
-# Вывод матрицы до преобразования
+matrix = [
+    ['A', 'b', 'c', '5'],
+    ['e', 'F', '2', 'H'],
+    ['4', 'J', 'K', 'L']
+]
+
 print("\nМатрица до преобразования:")
 print_matrix(matrix)
 
-# Преобразование матрицы
 transformed_matrix = transform_matrix(matrix)
 
-# Вывод матрицы после преобразования
 print("\nМатрица после преобразования:")
 print_matrix(transformed_matrix)

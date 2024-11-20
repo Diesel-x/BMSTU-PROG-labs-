@@ -1,67 +1,63 @@
-# Баянов Дияз ИУ7-14Б зад 1-7 сданы
-# Ввести трёхмерный массив(массив матриц размера X*Y*Z). Вывести срез
-# массива по большему измерению, индекс среза– середина размерности с
-# округлением в меньшую сторону.
-
-def input_3d_array():
-    while True:
-        try:
-            x = int(input("Введите размер X: "))
-            y = int(input("Введите размер Y: "))
-            z = int(input("Введите размер Z: "))
-            array = np.zeros((x, y, z), dtype=int)
-            for i in range(x):
-                for j in range(y):
-                    row = list(map(int, input(
-                        f"Введите элементы строки {j + 1} для матрицы {i + 1} через пробел: ").split()))
-                    if len(row) != z:
-                        raise ValueError(
-                            "Количество элементов в строке должно совпадать с размером Z.")
-                    array[i, j, :] = row
-            break
-        except ValueError as e:
-            print(f"Ошибка: {e}\n")
+#Баянов Дияз ИУ7-14Б
+def create_3d_array(x, y, z):
+    array = []
+    for i in range(x):
+        layer = []
+        for j in range(y):
+            while True:
+                row_input = input(f"Введите строку {i+1}, {j+1}: ")
+                row = list(map(int, row_input.split()))
+                if len(row) == z:
+                    break
+                print(f"Ошибка: введено {len(row)} элементов вместо {z}. Попробуйте снова.")
+            layer.append(row)
+        array.append(layer)
     return array
 
-
-def print_3d_array(array):
-    x, y, z = array.shape
-    for i in range(x):
-        print(f"Матрица {i + 1}:")
-        for j in range(y):
-            print(" ".join(map(str, array[i, j, :])))
-        print()
-
-
-def get_max_dimension(x, y, z):
-    if x >= y and x >= z:
-        return 'x', x
-    elif y >= x and y >= z:
-        return 'y', y
+def find_slice(array, x, y, z):
+    max_dim = max(x, y, z)
+    
+    if max_dim == x:
+        slice_index = x // 2
+        return array[slice_index]
+    elif max_dim == y:
+        slice_index = y // 2
+        sliced_layer = []
+        for i in range(x):
+            sliced_layer.append([array[i][slice_index]])
+        return sliced_layer
     else:
-        return 'z', z
+        slice_index = z // 2
+        sliced_row = []
+        for i in range(x):
+            sliced_row.extend([array[i][j][slice_index] for j in range(y)])
+        return [sliced_row]
 
+while True:
+    try:
+        x = int(input("Введите количество слоёв X: "))
+        y = int(input("Введите количество строк Y: "))
+        z = int(input("Введите количество столбцов Z: "))
+        break
+    except ValueError:
+        print("Ошибка: введено некорректное значение. Попробуйте снова.")
 
-def get_slice(array):
-    x, y, z = array.shape
-    max_dim, max_size = get_max_dimension(x, y, z)
-    index = max_size // 2
-    if max_dim == 'x':
-        return array[index, :, :]
-    elif max_dim == 'y':
-        return array[:, index, :]
-    else:
-        return array[:, :, index]
+# array = create_3d_array(x, y, z)
+array = [
+    ["11 12 13 14 15", "21 22 23 24 25", "31 32 33 34 35", "41 42 43 44 45"],
+    ["51 52 53 54 55", "61 62 63 64 65", "71 72 73 74 75", "81 82 83 84 85"],
+    ["91 92 93 94 95", "101 102 103 104 105", "111 112 113 114 115", "121 122 123 124 125"]
+]
 
+print("\nТрёхмерный массив:")
+for i in range(x):
+    print(f"Слой {i + 1}")
+    
+    for j in range(y):
+        print(' '.join(map(str, array[i][j])))
 
-# Ввод трехмерного массива
-array = input_3d_array()
+slice_result = find_slice(array, x, y, z)
 
-# Вывод трехмерного массива
-print("\nТрехмерный массив:")
-print_3d_array(array)
-
-# Получение и вывод среза массива по большему измерению
-slice_array = get_slice(array)
-print("\nСрез массива по большему измерению:")
-print(slice_array)
+print("\nРезультат среза:")
+for s in slice_result:
+    print(s)

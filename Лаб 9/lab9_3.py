@@ -25,41 +25,52 @@ def input_matrix(name):
             print(f"Ошибка: {e}\n")
     return matrix
 
+def count_and_transform(A, B):
+    # Находим средние арифметические для каждого столбца матрицы B
+    column_means_B = []
+    
+    for j in range(len(B[0])):
+        col_sum = sum(row[j] for row in B)
+        mean = col_sum / len(B)
+        column_means_B.append(mean)
+        
+    # Подсчет количества элементов в каждом столбце матрицы A,
+    # которые больше среднего арифметического соответствующего столбца в B
+    counts = []
+    
+    for j in range(len(A[0])):
+        count = 0
+        for i in range(len(A)):
+            if A[i][j] > column_means_B[j]:
+                count += 1
+        counts.append(count)
+    
+    print("Количество элементов в каждом столбце матрицы A, больших среднего арифметического соответствующих столбцов матрицы B:")
+    print(counts)
+    
+    transformed_B = [[0] * len(B[0]) for _ in range(len(B))]
+    
+    for j in range(len(B[0])):
+        if counts[j] != 0:
+            for i in range(len(B)):
+                transformed_B[i][j] = B[i][j] * counts[j]
+                
+    return transformed_B
 
-def column_average(matrix, col):
-    return sum(row[col] for row in matrix) / len(matrix)
 
+A = [
+    [2, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12]
+]
 
-def transform_matrix_B(matrix_B, values):
-    for j in range(len(matrix_B[0])):
-        if values[j] != 0:
-            for i in range(len(matrix_B)):
-                matrix_B[i][j] *= values[j]
+B = [
+    [2, 4, 15, 16],
+    [1, 1, 0, 3],
+    [100, 2, 1, 6]
+]
 
-
-def print_matrix(matrix):
-    for row in matrix:
-        print(" ".join(map(str, row)))
-
-
-# Ввод матриц A и B
-A = input_matrix("A")
-B = input_matrix("B")
-
-# Подсчет количества элементов в каждом столбце матрицы A, которые больше среднего арифметического соответствующего столбца матрицы B
-values = []
-for j in range(len(A[0])):
-    avg = column_average(B, j)
-    count = sum(1 for i in range(len(A)) if A[i][j] > avg)
-    values.append(count)
-
-# Вывод полученных значений
-print("\nПолученные значения для каждого столбца матрицы A:")
-print(" ".join(map(str, values)))
-
-# Преобразование матрицы B
-transform_matrix_B(B, values)
-
-# Вывод преобразованной матрицы B
+result = count_and_transform(A, B)
 print("\nПреобразованная матрица B:")
-print_matrix(B)
+for row in result:
+    print(row)
