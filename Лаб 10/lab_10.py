@@ -1,5 +1,5 @@
 #Баянов Дияз Гайсаевич, лаба 10, вар 6
-#Левые треугольники и 3/8
+#Левые прямоугольники и 3/8
 
 # Требуется написать программу для вычисления приближённого значения интеграла
 # известной, заданной в программе, функции двумя разными методами (по варианту).
@@ -36,7 +36,7 @@ def F(x):
     # Первообразная функции f(x) = x^2
     return x**3 / 3
 
-# Функция вычисления интегралла методом левых треугольков
+# Функция вычисления интегралла методом левых прямоугльников
 def left_triangles(a, b, n):
     h = (b - a) / n
     integral = 0
@@ -46,7 +46,7 @@ def left_triangles(a, b, n):
     return integral
 
 # Функция вычисления интегралла методом 3/8
-def simpson_3_8(a, b, n):
+def method_3_8(a, b, n):
     h = (b - a) / n
     integral = f(a) + f(b)
     for i in range(1, n):
@@ -75,14 +75,14 @@ def find_segments_for_accuracy(method, a, b, epsilon):
             return n
         n *= 2
 
-def get_float_input(prompt):
+def float_input(prompt):
     while True:
         try:
             return float(input(prompt))
         except ValueError:
             print("Ошибка: введите корректное числовое значение.")
 
-def get_positive_int_input(prompt):
+def int_input(prompt):
     while True:
         try:
             value = int(input(prompt))
@@ -93,58 +93,62 @@ def get_positive_int_input(prompt):
         except ValueError:
             print("Ошибка: введите корректное целое значение.")
 
-def print_results_table(a, b, n1, n2, integral_left, integral_simpson, exact_value):
+def print_results_table(a, b, n1, n2, integral_left, integral_3_8, exact_value):
+    absolute_error_left = absolute_error(integral_left, exact_value)
+    relative_error_left = relative_error(integral_left, exact_value)
+    absolute_error_3_8 = absolute_error(integral_3_8, exact_value)
+    relative_error_3_8 = relative_error(integral_3_8, exact_value)
     print("\nРезультаты вычислений:")
     print(f"{'Метод':<30}{'Количество участков':<25}{'Приближённое значение':<30}{'Абсолютная погрешность':<30}{'Относительная погрешность':<30}")
     print("-" * 160)
-    print(f"{'Левые треугольники':<30}{n1:<25}{integral_left:<30.7g}{absolute_error(integral_left, exact_value):<30.7g}{relative_error(integral_left, exact_value):<30.7g}")
+    print(f"{'Левые прямоугольники':<30}{n1:<25}{integral_left:<30.7g}{absolute_error_left:<30.7g}{relative_error_left:<30.7g}")
     if n2 % 3 == 0:
-        print(f"{'Метод 3/8':<30}{n2:<25}{integral_simpson:<30.7g}{absolute_error(integral_simpson, exact_value):<30.7g}{relative_error(integral_simpson, exact_value):<30.7g}")
+        print(f"{'Метод 3/8':<30}{n2:<25}{integral_3_8:<30.7g}{absolute_error_3_8:<30.7g}{relative_error_3_8:<30.7g}")
     else:
         print(f"{'Метод 3/8':<30}{'-':<25}{'-':<30}{'-':<30}{'-':<30}")
 
 def main():
-    a = get_float_input("Введите начало отрезка интегрирования: ")
-    b = get_float_input("Введите конец отрезка интегрирования: ")
-    n1 = get_positive_int_input("Введите количество участков разбиения для метода левых треугольников: ")
+    a = float_input("Введите начало отрезка интегрирования: ")
+    b = float_input("Введите конец отрезка интегрирования: ")
+    n1 = int_input("Введите количество участков разбиения для метода левых прямоугольников: ")
     
     while True:
-        n2 = get_positive_int_input("Введите количество участков разбиения для метода 3/8 (должно быть кратно 3): ")
+        n2 = int_input("Введите количество участков разбиения для метода 3/8 (должно быть кратно 3): ")
         if n2 % 3 == 0:
             break
         else:
             print("Ошибка: количеcтво участков разбиения для метода 3/8 должно быть кратно 3. Попробуйте снова.")
 
     integral_left_triangles = left_triangles(a, b, n1)
-    integral_simpson_3_8 = simpson_3_8(a, b, n2)
+    integral_3_8 = method_3_8(a, b, n2)
 
-    print(f"Приближённое значение интеграла методом левых треугольников: {integral_left_triangles:.7g}")
-    print(f"Приближённое значение интеграла методом 3/8: {integral_simpson_3_8:.7g}")
+    print(f"Приближённое значение интеграла методом левых прямоугольников: {integral_left_triangles:.7g}")
+    print(f"Приближённое значение интеграла методом 3/8: {integral_3_8:.7g}")
 
     exact_value = F(b) - F(a)
 
     abs_error_left = absolute_error(integral_left_triangles, exact_value)
     rel_error_left = relative_error(integral_left_triangles, exact_value)
-    abs_error_simpson = absolute_error(integral_simpson_3_8, exact_value)
-    rel_error_simpson = relative_error(integral_simpson_3_8, exact_value)
+    abs_error_simpson = absolute_error(integral_3_8, exact_value)
+    rel_error_simpson = relative_error(integral_3_8, exact_value)
 
-    print(f"Абсолютная погрешность метода левых треугольников: {abs_error_left:.7g}")
-    print(f"Относительная погрешность метода левых треугольников: {rel_error_left:.7g}")
+    print(f"Абсолютная погрешность метода левых прямоугольников: {abs_error_left:.7g}")
+    print(f"Относительная погрешность метода левых прямоугольников: {rel_error_left:.7g}")
     print(f"Абсолютная погрешность метода 3/8: {abs_error_simpson:.7g}")
     print(f"Относительная погрешность метода 3/8: {rel_error_simpson:.7g}")
 
-    print_results_table(a, b, n1, n2, integral_left_triangles, integral_simpson_3_8, exact_value)
+    print_results_table(a, b, n1, n2, integral_left_triangles, integral_3_8, exact_value)
 
     if abs_error_left < abs_error_simpson:
-        print("Метод левых треугольников более точный.")
-        epsilon = get_float_input("Введите требуемую точность для метода 3/8: ")
-        n_for_accuracy = find_segments_for_accuracy(simpson_3_8, a, b, epsilon)
+        print("Метод левых прямоугольников более точный.")
+        epsilon = float_input("Введите требуемую точность для метода 3/8: ")
+        n_for_accuracy = find_segments_for_accuracy(method_3_8, a, b, epsilon)
         print(f"Для достижения заданной точности методом 3/8 требуется {n_for_accuracy} участков разбиения.")
     else:
         print("Метод 3/8 более точный.")
-        epsilon = get_float_input("Введите требуемую точность для метода левых треугольников: ")
+        epsilon = float_input("Введите требуемую точность для метода левых прямугольноков: ")
         n_for_accuracy = find_segments_for_accuracy(left_triangles, a, b, epsilon)
-        print(f"Для достижения заданной точности методом левых треугольников требуется {n_for_accuracy} участков разбиения.")
+        print(f"Для достижения заданной точности методом левых прямоугольников требуется {n_for_accuracy} участков разбиения.")
 
 if __name__ == "__main__":
     main()

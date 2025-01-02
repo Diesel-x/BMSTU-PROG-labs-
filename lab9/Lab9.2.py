@@ -7,15 +7,7 @@
 from Matrix import *
 
 # Ввод данных матрицы
-row = int(input("Введите количество строк: "))
-while row < 0:
-    print("Количество строк должно быть больше или равно нулю")
-    row = int(input("Введите количество строк: "))
-column = int(input("Введите количество столбцов: "))
-while column < 0:
-    print("Количество столбцов должно быть больше или равно нулю")
-    column = int(input("Введите количество столбцов: "))
-
+row, column = input_matrix()
 matrix = fill_matrix(row, column)
 
 # matrix = [

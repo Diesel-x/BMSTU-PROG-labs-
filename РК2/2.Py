@@ -1,32 +1,37 @@
-m = [[1,2,3,4],[1,2,3,4],[10,11,12,13],[14,15,16,17]]
+import struct
+import os
 
-def matrix_print(matrix):
-    for i in matrix:
-        print(" ".join("{:>3}".format(s) for s in i))
+def main():
+    input_file = "РК2/numbers.bin"
+    output_file = "РК2/transformed_numbers.bin"
+    long_size = 8 
+    size = os.path.getsize(input_file)
+    num_c = size // long_size 
+    half = num_c // 2
 
-matrix_print(m)
+    with open(input_file, "rb") as fin, open(output_file, "wb") as fut:
+        fin.seek(half * long_size)
+        for _ in range(half):
+            fut.write(fin.read(long_size))
 
-size = len(m)
-for layer in range(size // 2):
-    first = layer
-    last = size - 1 - layer
-    for i in range(first, last):
-        offset = i - first
-        top = m[first][i]
-        m[first][i] = m[last - offset][first]
-        m[last - offset][first] = m[last][last - offset]
-        m[last][last - offset] = m[i][last]
-        m[i][last] = top
+        for i in range(half - 1, -1, -1):
+            fin.seek(i * long_size)
+            data = fin.read(long_size)
+            fut.write(data)
 
-print()
-matrix_print(m)
+        #Вывод
+        with open(output_file, "rb") as fout:
+            while True:
+                data = fout.read(long_size)
+                if not data:
+                    break
+                number = struct.unpack('q', data)[0]
+                print(number)
+if __name__ == "__main__":
+    main()
 
-sums = []
-for j in range(size):
-    sum = 0
-    for i in range(size):
-        sum += m[i][j]
-    sums.append(sum)
-
-print()
-print(sums)
+# for _ in range(half):
+#     data = fin.read(long_size)
+#     number = struct.unpack('q', data)[0]
+#     packed_data = struct.pack('q', number)
+#     fout.write(packed_data)

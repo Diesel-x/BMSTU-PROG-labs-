@@ -17,21 +17,25 @@ def print_matrix(m, c):
         if (i + 1) % c == 0:
             print()
 
-x = int(input("Введите размер Х для матрицы: "))
-while x < 0:
-    print("Размер должен быть больше или равен нулю")
-y = int(input("Введите размер Y для матрицы: "))
-while x < 0:
-    print("Размер должен быть больше или равен нулю")
-z = int(input("Введите размер Z для матрицы: "))
-while x < 0:
-    print("Размер должен быть больше или равен нулю")
+def input_matrix():
+    x = int(input("Введите размер Х для матрицы: "))
+    while x < 0:
+        print("Размер должен быть больше или равен нулю")
+    y = int(input("Введите размер Y для матрицы: "))
+    while x < 0:
+        print("Размер должен быть больше или равен нулю")
+    z = int(input("Введите размер Z для матрицы: "))
+    while x < 0:
+        print("Размер должен быть больше или равен нулю")
+    return x,y,z
+
+x, y, z = input_matrix()
 
 # Создание и заполнение матрицы
-# mega_matrix = []
-# for i in range(x):
-#     matrix = fill_matrix(y, z)
-#     mega_matrix.append(matrix)
+mega_matrix = []
+for i in range(x):
+    matrix = fill_matrix(y, z)
+    mega_matrix.append(matrix)
 
 # Определение большего измерения
 max_measurement = 0

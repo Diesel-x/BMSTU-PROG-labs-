@@ -14,16 +14,7 @@ from Matrix import *
 
 # r_list = [0, 2]
 
-# Ввод данных матрицы
-row = int(input("Введите количество строк: "))
-while row < 0:
-    print("Количество строк должно быть больше или равно нулю")
-    row = int(input("Введите количество строк: "))
-column = int(input("Введите количество столбцов: "))
-while column < 0:
-    print("Количество столбцов должно быть больше или равно нулю")
-    column = int(input("Введите количество столбцов: "))
-
+row, column = input_matrix()
 matrix = fill_matrix(row, column)
 
 # Создание и заполнение массива I
@@ -47,10 +38,10 @@ for i in i_list:
     r_list.append(max_elem)
 
 # Нахождение среднего арифметического
-summa = 0
+sum = 0
 for x in r_list:
-    summa += x
-arithmetic_mean = summa / len(r_list)
+    sum += x
+arithmetic_mean = sum / len(r_list)
 
 print_matrix(matrix)
 print("Массив L: ", end="")

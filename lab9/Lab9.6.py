@@ -2,6 +2,7 @@
 # согласные латинские букв на заглавные, а все гласные латинские буквы на
 # строчные. Вывести матрицу до преобразования и после.
 
+from Matrix import *
 # Функция создания и заполнения матрицы
 def fill_matrix(f_row, f_column):
     f_matrix = []
@@ -20,29 +21,23 @@ def print_matrix(m):
             print(f"{m[i][j]:>10}", end="")
         print()
 
-# Ввод данных матрицы
-row = int(input("Введите количество строк: "))
-while row < 0:
-    print("Количество строк должно быть больше или равно нулю")
-    row = int(input("Введите количество строк: "))
-column = int(input("Введите количество столбцов: "))
-while column < 0:
-    print("Количество столбцов должно быть больше или равно нулю")
-    column = int(input("Введите количество столбцов: "))
+# Изменение матрицы
+def matrix_edit(row, column, matrix):
+    vowels = "AEYUIO"
+    for i in range(row):
+        for j in range(column):
+            if matrix[i][j].isalpha():
+                if matrix[i][j].upper() in vowels:
+                    matrix[i][j] = matrix[i][j].lower()
+                else:
+                    matrix[i][j] = matrix[i][j].upper()
 
-# Создание и заполнение матрицы
+row, column = input_matrix()
 matrix = fill_matrix(row, column)
 
 print_matrix(matrix)
 
-vowels = "AEYUIO"
-for i in range(row):
-    for j in range(column):
-        if matrix[i][j].isalpha():
-            if matrix[i][j].upper() in vowels:
-                matrix[i][j] = matrix[i][j].lower()
-            else:
-                matrix[i][j] = matrix[i][j].upper()
+matrix_edit(row, column, matrix)
 
 print("Измененная матрица: ")
 print_matrix(matrix)

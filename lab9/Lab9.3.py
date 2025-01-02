@@ -9,15 +9,7 @@
 from Matrix import *
 
 # Ввод данных первой матрицы
-row_a = int(input("Введите количество строк для первой матрицы: "))
-while row_a < 0:
-    print("Количество строк должно быть больше или равно нулю")
-    row_a = int(input("Введите количество строк для первой матрицы: "))
-column = int(input("Введите количество столбцов для обеих матриц: "))
-while column < 0:
-    print("Количество столбцов должно быть больше или равно нулю")
-    column = int(input("Введите количество столбцов для обеих матриц: "))
-
+row_a, column = input_matrix()
 matrix_a = fill_matrix(row_a, column)
 
 # Ввод данных второй матрицы
@@ -30,10 +22,10 @@ matrix_b = fill_matrix(row_b, column)
 
 list_cnt = []
 for j in range(column):
-    summa = 0
+    sum = 0
     for i in range(row_b):
-        summa += matrix_b[i][j]
-    arithmetic_mean = summa / row_b
+        sum += matrix_b[i][j]
+    arithmetic_mean = sum / row_b
     cnt = 0
     for i in range(row_a):
         if matrix_a[i][j] > arithmetic_mean:

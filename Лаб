@@ -1,0 +1,146 @@
+import os
+import struct
+
+RECORD_FORMAT = 'i 20s 20s 20s'  # id (int), фамилия, имя, отчество
+RECORD_SIZE = struct.calcsize(RECORD_FORMAT)
+
+def init_database(filename):
+    n = int(input("Введите количество записей для инициализации: "))
+    with open(filename, 'wb') as f:
+        for _ in range(n):
+            id = int(input("Введите id (целое число): "))
+            last_name = input("Введите фамилию (до 20 символов): ").encode('utf-8')
+            first_name = input("Введите имя (до 20 символов): ").encode('utf-8')
+            patronymic = input("Введите отчество (до 20 символов): ").encode('utf-8')
+            record = struct.pack(RECORD_FORMAT, id, last_name.ljust(20)[:20], first_name.ljust(20)[:20], patronymic.ljust(20)[:20])
+            f.write(record)
+
+def print_database(filename):
+    if not os.path.exists(filename):
+        print("Файл не существует.")
+        return
+    with open(filename, 'rb') as f:
+        index = 1
+        while True:
+            bytes_read = f.read(RECORD_SIZE)
+            if not bytes_read:
+                break
+            record = struct.unpack(RECORD_FORMAT, bytes_read)
+            id = record[0]
+            last_name = record[1].decode('utf-8').strip()
+            first_name = record[2].decode('utf-8').strip()
+            patronymic = record[3].decode('utf-8').strip()
+            print(f"{index}. ID: {id}, Фамилия: {last_name}, Имя: {first_name}, Отчество: {patronymic}")
+            index += 1
+
+def initialize_database(directory, delimiter='|'):
+    filename = os.path.join(directory, 'database.txt')
+    num_fields = int_input("Введите количество полей в записи: ")
+    field_names = []
+    for i in range(num_fields):
+        field = input(f"Введите название поля {i +1}: ")
+        field_names.append(field)
+    
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write(delimiter.join(field_names) + '\n')
+    
+    print(f"База данных инициализирована в файле {filename} с полями: {', '.join(field_names)}")
+
+def display_fields(field_names):
+    print("Доступные поля для поиска:")
+    for idx, field in enumerate(field_names, 1):
+        print(f"{idx}. {field}")
+
+def search_by_field(filename, delimiter='|'):
+    data = read_database(filename, delimiter)
+    if not data:
+        print("База данных пуста.")
+        return
+    field_names = data[0]
+    display_fields(field_names)
+    
+    while True:
+        field_input = input("Введите номер или название поля для поиска: ").strip()
+        if field_input.isdigit():
+            field_num = int(field_input)
+            if 1 <= field_num <= len(field_names):
+                field_name = field_names[field_num - 1]
+                break
+            else:
+                print("Номер поля вне диапазона. Попробуйте снова.")
+        else:
+            if field_input in field_names:
+                field_name = field_input
+                field_num = field_names.index(field_input) + 1
+                break
+            else:
+                print("Название поля не найдено. Попробуйте снова.")
+    
+    search_value = input("Введите значение для поиска (подстрока): ").strip().lower()
+    found = False
+    print("\nНайденные записи:")
+    for record in data[1:]:
+        if len(record) >= field_num and search_value in record[field_num - 1].lower():
+            print(record)
+            found = True
+    if not found:
+        print("Записи не найдены.")
+
+def search_by_two_fields(filename, delimiter='|'):
+    data = read_database(filename, delimiter)
+    if not data:
+        print("База данных пуста.")
+        return
+    field_names = data[0]
+    display_fields(field_names)
+    
+    # Первый критерий поиска
+    while True:
+        field1_input = input("Введите номер или название первого поля для поиска: ").strip()
+        if field1_input.isdigit():
+            field1_num = int(field1_input)
+            if 1 <= field1_num <= len(field_names):
+                field1_name = field_names[field1_num - 1]
+                break
+            else:
+                print("Номер поля вне диапазона. Попробуйте снова.")
+        else:
+            if field1_input in field_names:
+                field1_name = field1_input
+                field1_num = field_names.index(field1_input) + 1
+                break
+            else:
+                print("Название поля не найдено. Попробуйте снова.")
+    
+    value1 = input(f"Введите значение для поля '{field1_name}' (подстрока): ").strip().lower()
+    
+    # Второй критерий поиска
+    while True:
+        field2_input = input("Введите номер или название второго поля для поиска: ").strip()
+        if field2_input.isdigit():
+            field2_num = int(field2_input)
+            if 1 <= field2_num <= len(field_names):
+                field2_name = field_names[field2_num - 1]
+                break
+            else:
+                print("Номер поля вне диапазона. Попробуйте снова.")
+        else:
+            if field2_input in field_names:
+                field2_name = field2_input
+                field2_num = field_names.index(field2_input) + 1
+                break
+            else:
+                print("Название поля не найдено. Попробуйте снова.")
+    
+    value2 = input(f"Введите значение для поля '{field2_name}' (подстрока): ").strip().lower()
+    
+    found = False
+    print("\nНайденные записи:")
+    for record in data[1:]:
+        cond1 = len(record) >= field1_num and value1 in record[field1_num - 1].lower()
+        cond2 = len(record) >= field2_num and value2 in record[field2_num - 1].lower()
+        if cond1 and cond2:
+            print(record)
+            found = True
+    if not found:
+        print("Записи не найдены.")
