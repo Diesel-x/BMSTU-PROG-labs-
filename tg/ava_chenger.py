@@ -5,8 +5,8 @@ from telethon import TelegramClient, functions
 from datetime import datetime, timedelta
 
 # Введите ваши данные Telegram API
-api_id = '25580938'
-api_hash = 'df83c2188ae62a600368de2e397a2b62'
+api_id = ''
+api_hash = ''
 
 # Папка с изображениями
 avatar_folder = 'avatars/'
